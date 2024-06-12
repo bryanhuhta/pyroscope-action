@@ -17,7 +17,6 @@ jobs:
         run: go test -bench . -benchmem -benchtime 10s -cpuprofile cpu.out -o bench.exe ./...
       - name: Upload to flamegraph.com
         run: |
-          go env
-          go get -u github.com/google/pprof
+          go install github.com/google/pprof@latest
           pprof -proto bench.exe cpu.out
           cat profile001.pb.gz | curl --data-binary @- https://flamegraph.com
