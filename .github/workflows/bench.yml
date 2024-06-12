@@ -35,9 +35,11 @@ jobs:
           script: |
             const fs = require('fs');
 
-            const profiles = fs.readFileSync('profiles.txt', 'utf8').split('\n');
             const urls = fs.readFileSync('urls.txt', 'utf8').split('\n');
-            const body = profiles.map((profile, i) => `- [${profile}](${urls[i]})`).join('\n');
+            const body = profiles.map((profile, i) => [profile, urls[i]])
+              .filter(([profile, url]) => profile && url)
+              .map(([profile, url]) => `- [${profile}](${url})`)
+              .join('\n');
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
