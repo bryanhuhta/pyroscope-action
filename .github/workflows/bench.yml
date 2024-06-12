@@ -22,13 +22,9 @@ jobs:
         run: |
           mkdir -p artifacts
           rg -INo --color 'never' -r '$1' -e '^func (Benchmark[a-zA-Z0-9_]+)' . | xargs -I% go test -bench ^%$ -benchtime 10s -cpuprofile artifacts/%.cpu.out -o artifacts/%.cpu.exe ./...
-          ls -lah
-          ls -lah artifacts
       - name: Upload to flamegraph.com
         run: |
-          echo $(find artifacts/*.cpu.exe)
-          echo $(find artifacts/*.cpu.exe | rg -INo --color 'never' -r '$1' -e '^artifacts/(.*)\.cpu\.exe$')
-          find artifacts/*.cpu.exe | rg -INo --color 'never' -r '$1' -e '^artifacts/(.*)\.cpu\.exe$' | xargs -I% pprof -proto artifacts/%.cpu.exe artifacts/%.cpu.out > %.pb.gz
+          find artifacts/*.cpu.exe | rg -INo --color 'never' -r '$1' -e '^artifacts/(.*)\.cpu\.exe$' | xargs -I% sh -c 'pprof -proto artifacts/%.cpu.exe artifacts/$1.cpu.out > "$1.pb.gz"' -- %
           ls -lah
           ls -lah artifacts
           find *.pb.gz | xargs -I% curl -sS --data-binary @% https://flamegraph.com | jq -r .url
