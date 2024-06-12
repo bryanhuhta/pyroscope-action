@@ -13,10 +13,11 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: '1.22.x'
-      - name: Install ripgrep
+      - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y ripgrep
+          go install github.com/google/pprof@latest
       - name: Benchmark CPU
         run: |
           mkdir -p artifacts
@@ -25,7 +26,8 @@ jobs:
           ls -lah artifacts
       - name: Upload to flamegraph.com
         run: |
-          go install github.com/google/pprof@latest
+          echo $(find artifacts/*.cpu.exe)
+          echo $(find artifacts/*.cpu.exe | rg -INo --color 'never' -r '$1' -e '^artifacts/(.*)\.cpu\.exe$')
           find artifacts/*.cpu.exe | rg -INo --color 'never' -r '$1' -e '^artifacts/(.*)\.cpu\.exe$' | xargs -I% pprof -proto artifacts/%.cpu.exe artifacts/%.cpu.out
           ls -lah
           ls -lah artifacts
