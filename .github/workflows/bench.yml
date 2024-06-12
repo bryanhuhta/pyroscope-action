@@ -13,11 +13,11 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: 1.22.3
-      - name: Install pprof
-        run: go get -u github.com/google/pprof
       - name: Benchmark CPU
         run: go test -bench . -benchmem -benchtime 10s -cpuprofile cpu.out -o bench.exe ./...
       - name: Generate pprof
-        run: pprof -proto bench.exe cpu.out
+        run: >
+          go get -u github.com/google/pprof
+          pprof -proto bench.exe cpu.out
       - name: Upload to flamegraph.com
         run: cat profile001.pb.gz | curl --data-binary @- https://flamegraph.com
