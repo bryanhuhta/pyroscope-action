@@ -28,7 +28,7 @@ jobs:
         run: |
           echo $(find artifacts/*.cpu.exe)
           echo $(find artifacts/*.cpu.exe | rg -INo --color 'never' -r '$1' -e '^artifacts/(.*)\.cpu\.exe$')
-          find artifacts/*.cpu.exe | rg -INo --color 'never' -r '$1' -e '^artifacts/(.*)\.cpu\.exe$' | xargs -I% pprof -proto artifacts/%.cpu.exe artifacts/%.cpu.out
+          find artifacts/*.cpu.exe | rg -INo --color 'never' -r '$1' -e '^artifacts/(.*)\.cpu\.exe$' | xargs -I% pprof -proto artifacts/%.cpu.exe artifacts/%.cpu.out > %.pb.gz
           ls -lah
           ls -lah artifacts
           find *.pb.gz | xargs -I% curl -sS --data-binary @% https://flamegraph.com | jq -r .url
