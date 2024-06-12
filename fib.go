@@ -1,7 +1,7 @@
 package pyroscopeaction
 
 func Fib(n int) int {
-	if n <= 1 {
+	if n == 0 || n < 1 {
 		return n
 	}
 
