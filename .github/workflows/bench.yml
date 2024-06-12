@@ -19,4 +19,5 @@ jobs:
         run: |
           go install github.com/google/pprof@latest
           pprof -proto bench.exe cpu.out
-          cat profile001.pb.gz | curl --data-binary @- https://flamegraph.com
+          ls -lah
+          curl --data-binary @profile001.pb.gz https://flamegraph.com
