@@ -5,6 +5,9 @@ import (
 	"testing"
 )
 
+var result2 []int
+
+//go:noinline
 func BenchmarkBubbleSort1000(b *testing.B) {
 	arr := make([]int, 1000)
 	for i := range arr {
@@ -21,4 +24,6 @@ func BenchmarkBubbleSort1000(b *testing.B) {
 		copy(arr2, arr)
 		BubbleSort(arr2)
 	}
+
+	result2 = arr2
 }
