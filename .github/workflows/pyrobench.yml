@@ -1,0 +1,44 @@
+name: Benchmark
+on: [pull_request]
+jobs:
+  test:
+    name: Bench
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up Go 1.22
+      uses: actions/setup-go@v5
+      with:
+        go-version: 1.22
+      id: go
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 1024
+
+    # TODO: Pin release
+    # TODO: Remove git-base
+    # TODO: Provide output
+    - name: Run Benchmark
+      id: run_benchmarks
+      run: |
+        IDS=$(go run github.com/grafana/pyrobench@ce823ac -v compare --git-base dab464ec1f0bd3fe62d38be2aa8fec5dc34f0ba2)
+        echo 'flame_graph_ids="${IDS}"' >> "$GITHUB_OUTPUT"
+
+    - uses: actions/github-script@v7
+      id: create-comment
+      if: ${{ github.event_name == 'pull_request' }}
+      with:
+        script: |
+          return await github.rest.issues.listComments({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          });
+
+    - name: Get result
+      if: ${{ github.event_name == 'pull_request' }}
+      run: |
+        echo '${{steps.create-comment.outputs.result}}'
+        echo '${{steps.run_benchmarks.outputs.flame_graph_ids}}'
