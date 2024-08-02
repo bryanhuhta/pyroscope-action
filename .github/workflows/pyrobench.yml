@@ -23,7 +23,8 @@ jobs:
     - name: Run Benchmark
       id: run_benchmarks
       run: |
-        echo "flame_graph_ids=$(go run github.com/grafana/pyrobench@5208c1b -v compare --git-base dab464ec1f0bd3fe62d38be2aa8fec5dc34f0ba2)" >> $GITHUB_OUTPUT
+        go run github.com/grafana/pyrobench@5208c1b -v compare --git-base dab464ec1f0bd3fe62d38be2aa8fec5dc34f0ba2 >> ids.txt
+        cat ids.txt >> $GITHUB_OUTPUT
 
     - uses: actions/github-script@v7
       id: create-comment
