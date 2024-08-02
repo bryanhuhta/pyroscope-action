@@ -22,7 +22,7 @@ jobs:
     # TODO: Provide output
     - name: Run Benchmark
       run: |
-        go run github.com/grafana/pyrobench@e21df76 -v compare --git-base dab464ec1f0bd3fe62d38be2aa8fec5dc34f0ba2 >> results.json
+        go run github.com/grafana/pyrobench@e21df76 -v compare --git-base dab464ec1f0bd3fe62d38be2aa8fec5dc34f0ba2 >> results.txt
 
     - uses: actions/github-script@v7
       id: create-comment
@@ -40,4 +40,4 @@ jobs:
       if: ${{ github.event_name == 'pull_request' }}
       run: |
         # echo '${{steps.create-comment.outputs.result}}'
-        cat ids.txt
+        cat results.txt
