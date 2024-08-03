@@ -22,10 +22,10 @@ jobs:
     # TODO: Provide output
     - name: Run Benchmark
       run: |
-        go run github.com/grafana/pyrobench@6c89e9e -v compare --git-base dab464ec1f0bd3fe62d38be2aa8fec5dc34f0ba2 >> results.txt
+        go run github.com/grafana/pyrobench@6c89e9e -v compare --git-base 15dd5805938793bb952dd7772c8caab77ba8ff1a >> results.txt
 
     - name: Download test report
-      run: curl https://raw.githubusercontent.com/grafana/hackathon-2024-08-pyrobench/main/js/report.js -o report.js
+      run: curl -sL https://raw.githubusercontent.com/grafana/hackathon-2024-08-pyrobench/main/js/report.js -o report.js
 
     - uses: actions/github-script@v7
       id: create-comment
