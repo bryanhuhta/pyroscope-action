@@ -5,9 +5,6 @@ jobs:
     name: Run Pyrobench on demand by PR comment
     if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      issues: write
     steps:
       - uses: actions/setup-go@v5
         with:
