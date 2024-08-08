@@ -17,3 +17,5 @@ jobs:
         with:
           github_context: ${{ toJson(github) }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          PYROBENCH_VERSION: dev
