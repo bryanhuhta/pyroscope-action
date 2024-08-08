@@ -12,5 +12,6 @@ jobs:
       - name: Pyrobench
         uses: grafana/pyrobench@main
         with:
+          version: dev
           github_context: ${{ toJson(github) }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
