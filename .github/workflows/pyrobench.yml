@@ -10,7 +10,7 @@ jobs:
         with:
           go-version: '1.22'
       - name: Pyrobench
-        uses: grafana/pyrobench@4ae055fe1e78e4d1b26e70253093c0fa13dad3a8
+        uses: grafana/pyrobench@main
         with:
           github_context: ${{ toJson(github) }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
